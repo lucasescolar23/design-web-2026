@@ -1,0 +1,14 @@
+$text-color : rgb(223, 0, 193);
+$h1-color : blue;
+$background-color : pink;
+
+body{
+    color: $text-color;
+
+    h1{
+        color: $h1-color;
+        &:hover{
+            background-color: $background-color;
+        }
+    }
+}
