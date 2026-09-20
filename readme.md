@@ -1,100 +1,132 @@
-# Repositório da turma de Design Web 2026
+# Página Pessoal com DaisyUI
 
+## Sobre o projeto
 
-## 4ª Semana
+Esta página pessoal foi desenvolvida utilizando **DaisyUI junto com Tailwind CSS**, com o objetivo de criar uma apresentação profissional utilizando componentes prontos da biblioteca DaisyUI, combinando estrutura, organização e responsividade.
 
-### Passo 1 – Criar a branch da atividade
-Crie uma branch da atividade. 
-```
-git checkout -b atividade-1
-```
-### Passo 2 – Editar o arquivo index.html
-Substitua o conteúdo do <body> pelo código abaixo (ou personalize):
+A página apresenta informações pessoais, habilidades, projetos desenvolvidos e uma área de contato.
 
-```
-<div class="max-w-sm bg-white rounded-lg shadow-lg p-6 text-center">
-  <img src="https://picsum.photos/seed/1/100" alt="Foto de perfil" class="w-24 h-24 rounded-full mx-auto mb-4">
-  <h2 class="text-2xl font-bold text-gray-800">Seu Nome</h2>
-  <p class="text-gray-600 mt-2">Desenvolvedor Web em aprendizado</p>
-  <button class="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-    Seguir
-  </button>
-</div>
-```
+---
 
-## Passo 3 – Commit e push
-```
-git add index.html
-git commit -m "adiciona card de perfil estilizado com Tailwind"
-git push origin atividade-1
-```
+# Componentes DaisyUI utilizados
 
-### Passo 4 – Enviar o link no Google Sala de Aula
-- No GitHub, vá até seu repositório fork.
-- No seletor de branches, escolha atividade-1.
-- Copie a URL (ex: https://github.com/SEU_USUARIO/turma-design-web/tree/atividade-1).
-- Cole esse link no campo de entrega da tarefa.
+## Navbar
 
+O componente `navbar` foi utilizado no cabeçalho da página para apresentar meu nome e minha área de atuação, além de disponibilizar um botão de contato.
 
-## 3ª Semana 
+Escolhi esse componente porque ele organiza as informações principais logo no início da página de forma simples e eficiente.
 
-Fizemos algumas atividades, focados no Github. Criamos e clonamos nosso repositório principal.
+---
 
-### Passo 1 – Fork do repositório
+## Hero
 
-- Acesse: https://github.com/professor/turma-design-web
-- Clique no botão Fork (canto superior direito). Isso criará uma cópia na sua conta. 
+O componente `hero` foi utilizado na seção inicial de apresentação para destacar minha área de atuação e apresentar uma breve descrição sobre mim.
 
-### Passo 2 – Clonar o fork
-Abra o terminal (Git Bash, PowerShell ou terminal integrado do VS Code) e execute
+Ele foi escolhido porque cria uma área de destaque, dando mais importância para a primeira impressão da página.
 
-```
-git clone https://github.com/SEU_USUARIO/turma-design-web.git
-cd turma-design-web
-```
+---
 
+## Badge
 
+Foram utilizadas variações do componente `badge` para destacar habilidades e áreas de interesse.
 
-Arquivo de codigo compartilhado
+Componentes utilizados:
 
-## 2ª Semana 
+* `badge-primary`
+* `badge-outline`
+* `badge-secondary`
 
-### Cartão de Apresentação – Bruno Nakamura
+Eles ajudam a visualizar rapidamente minhas principais áreas de conhecimento.
 
-Projeto didático para ensinar a integração entre **HTML semântico** e **SCSS** (pré-processador CSS).
+---
 
-## Estrutura
+## Card
 
-projeto/
+O componente `card` foi utilizado na seção de projetos para organizar as informações de cada trabalho desenvolvido.
 
-├── index.html 
+Foram criados três cards:
 
-├── scss/
+* DoeMais+
+* Registro de Comandas
+* Portfólio Web
 
-└── style.scss 
+Cada card utiliza:
 
-└── css/
+* `card-body`
+* `card-title`
+* `card-actions`
 
-└── style.css # Arquivo gerado pelo SCSS (não edite jamais ou vai perder tudo para sempre)
+O uso dos cards facilita a organização das informações e deixa a apresentação dos projetos mais clara.
 
+---
 
-## Como usar
+## Button
 
-1. **Clone ou baixe** os arquivos.
-2. **Compile o SCSS** para CSS:
-   - Com o Sass instalado: `sass scss/style.scss css/style.css --watch`
-   - Ou use a extensão "Live Sass Compiler" no VS Code.
-3. **Abra** o `index.html` no navegador.
+O componente `btn` foi utilizado nas ações da página.
 
-## Personalize
+Foram utilizadas diferentes variações:
 
-- **Cores**: altere as variáveis no início do `style.scss` (`$color-primary`, `$color-secondary`, etc.).
-- **Imagem**: substitua a URL placeholder (`https://via.placeholder.com/...`) pelo seu próprio avatar.
-- **Conteúdo**: edite o HTML para mudar texto, tecnologias e links.
+* `btn-primary`
+* `btn-secondary`
+* `btn-outline`
 
-## Boas práticas aplicadas
+A utilização de diferentes estilos ajuda a diferenciar ações principais e secundárias.
 
-- Tags HTML semânticas (`header`, `main`, `section`, `footer`)
-- Atributos de acessibilidade (`role`, `aria-label`, `focus-visible`)
-- Responsividade com mixins (mobile-first)
-- Código SCSS organizado com variáveis e aninhamento
+---
+
+## Input
+
+O componente `input` foi utilizado na área de contato para criar campos de formulário.
+
+Foram adicionados campos para:
+
+* Nome
+* Email
+* Mensagem
+
+Foi utilizado o estilo:
+
+* `input-bordered`
+
+para melhorar a organização visual do formulário.
+
+---
+
+# Justificativa da escolha do cabeçalho
+
+Foi escolhido o componente `navbar` junto com o `hero` para construir o início da página.
+
+O `navbar` permite apresentar informações importantes de forma organizada, enquanto o `hero` cria uma área de destaque para a apresentação pessoal.
+
+Essa combinação deixa a página mais completa e melhora a experiência inicial do usuário.
+
+---
+
+# Ajustes realizados com Tailwind CSS
+
+Apesar do DaisyUI fornecer os componentes principais, algumas classes do Tailwind foram utilizadas para personalizar o layout.
+
+Exemplos:
+
+* `grid md:grid-cols-3` foi utilizado para organizar os cards de projetos e garantir responsividade em diferentes tamanhos de tela.
+* `px-6`, `py-12` e `gap-6` foram utilizados para controlar espaçamento e melhorar a organização visual da página.
+
+O Tailwind foi utilizado como complemento para ajustar o posicionamento e a responsividade dos componentes DaisyUI.
+
+---
+
+# Reflexão sobre temas
+
+A página foi testada utilizando os temas `dark` e `light` do DaisyUI.
+
+O tema `dark` apresentou maior coerência com a proposta da página, pois combina melhor com uma apresentação relacionada à tecnologia e desenvolvimento web, além de destacar melhor os elementos visuais.
+
+Mesmo assim, a estrutura continua funcionando corretamente no tema `light`.
+
+---
+
+# Tecnologias utilizadas
+
+* HTML5
+* Tailwind CSS
+* DaisyUI
