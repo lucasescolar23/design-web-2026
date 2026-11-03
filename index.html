@@ -13,7 +13,11 @@
       }
     },
     computed: {
+      // TODO 4 — oficinasVisiveis()
       oficinasVisiveis() {
+        if (this.filtro === 'favoritas') {
+          return this.oficinas.filter(oficina => oficina.favorita);
+        }
         return this.oficinas;
       }
     },
