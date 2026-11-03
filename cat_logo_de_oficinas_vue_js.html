@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Catálogo de Oficinas Vue.js</title>
+  <!-- Tailwind CSS + DaisyUI via CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@4.7.2/dist/full.min.css" rel="stylesheet" type="text/css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Vue.js 3 via CDN -->
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+</head>
+<body class="bg-base-200 min-h-screen py-10 px-4">
+  <div id="app" class="max-w-2xl mx-auto">
+    <!-- Cabeçalho -->
+    <header class="text-center mb-8">
+      <h1 class="text-3xl font-bold text-primary mb-2">Catálogo de Oficinas</h1>
+      <p class="text-base-content/70">Gerencie suas oficinas, marque favoritas e filtre a visualização.</p>
+    </header>
+
+    <!-- Form para adicionar oficina -->
+    <div class="card bg-base-100 shadow-xl mb-6">
+      <div class="card-body">
+        <form @submit.prevent="adicionarOficina" class="flex gap-2">
+          <input 
+            type="text" 
+            v-model="novaOficina" 
+            placeholder="Digite o nome da nova oficina..." 
+            class="input input-bordered flex-1"
+          />
+          <button type="submit" class="btn btn-primary">Adicionar</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Controles de Filtros e Contador -->
+    <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
+      <div class="join">
+        <button 
+          @click="filtro = 'todas'" 
+          class="btn btn-sm join-item" 
+          :class="{ 'btn-active btn-primary': filtro === 'todas' }"
+        >
+          Todas
+        </button>
+        <button 
+          @click="filtro = 'favoritas'" 
+          class="btn btn-sm join-item" 
+          :class="{ 'btn-active btn-primary': filtro === 'favoritas' }"
+        >
+          Favoritas
+        </button>
+      </div>
+
+      <div class="text-sm text-base-content/70">
+        Exibindo <span class="font-bold text-base-content">{{ oficinasVisiveis.length }}</span> oficina(s)
+      </div>
+    </div>
+
+    <!-- Lista de Oficinas -->
+    <div v-if="oficinasVisiveis.length > 0" class="space-y-3">
+      <div 
+        v-for="oficina in oficinasVisiveis" 
+        :key="oficina.id" 
+        class="card bg-base-100 shadow-md hover:shadow-lg transition-shadow"
+      >
+        <div class="card-body p-4 flex-row items-center justify-between">
+          <div class="flex items-center gap-3">
+            <span class="font-semibold text-lg">{{ oficina.titulo }}</span>
+            <span v-if="oficina.favorita" class="badge badge-secondary badge-sm">Favorita</span>
+          </div>
+
+          <div class="card-actions">
+            <button 
+              @click="alternarFavorito(oficina.id)" 
+              class="btn btn-sm"
+              :class="oficina.favorita ? 'btn-warning' : 'btn-outline'"
+            >
+              {{ oficina.favorita ? '★ Favoritado' : '☆ Favoritar' }}
+            </button>
+            <button 
+              @click="removerOficina(oficina.id)" 
+              class="btn btn-sm btn-error btn-outline"
+            >
+              Excluir
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Estado Vazio -->
+    <div v-else class="text-center py-12 bg-base-100 rounded-box shadow-md">
+      <p class="text-base-content/60 text-lg">Nenhuma oficina encontrada.</p>
+    </div>
+  </div>
+
+  <!-- Lógica Vue.js -->
+  <script>
+    Vue.createApp({
+      data() {
+        return {
+          novaOficina: '',
+          proximoId: 4,
+          filtro: 'todas', // 'todas' ou 'favoritas'
+          oficinas: [
+            { id: 1, titulo: 'Introdução ao Vue.js', favorita: true },
+            { id: 2, titulo: 'Desenvolvimento Web com Tailwind CSS', favorita: false },
+            { id: 3, titulo: 'Git e GitHub na Prática', favorita: false }
+          ]
+        }
+      },
+      computed: {
+        // TODO 4 — oficinasVisiveis()
+        oficinasVisiveis() {
+          if (this.filtro === 'favoritas') {
+            return this.oficinas.filter(oficina => oficina.favorita);
+          }
+          return this.oficinas;
+        }
+      },
+      methods: {
+        // Exemplo de referência fornecido na atividade
+        limparCampo() {
+          this.novaOficina = '';
+        },
+
+        // TODO 1 — adicionarOficina()
+        adicionarOficina() {
+          const titulo = this.novaOficina.trim();
+          
+          if (titulo === '') {
+            return;
+          }
+
+          this.oficinas.push({
+            id: this.proximoId,
+            titulo: titulo,
+            favorita: false
+          });
+
+          this.proximoId += 1;
+          this.limparCampo();
+        },
+
+        // TODO 2 — alternarFavorito(id)
+        alternarFavorito(id) {
+          const oficina = this.oficinas.find(item => item.id === id);
+
+          if (!oficina) {
+            return;
+          }
+
+          oficina.favorita = !oficina.favorita;
+        },
+
+        // TODO 3 — removerOficina(id)
+        removerOficina(id) {
+          this.oficinas = this.oficinas.filter(item => item.id !== id);
+        }
+      }
+    }).mount('#app');
+  </script>
+</body>
+</html>
