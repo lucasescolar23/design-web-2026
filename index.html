@@ -47,6 +47,10 @@
         }
 
         oficina.favorita = !oficina.favorita;
+      },
+      // TODO 3 — removerOficina(id)
+      removerOficina(id) {
+        this.oficinas = this.oficinas.filter(item => item.id !== id);
       }
     }
   }).mount('#app');
