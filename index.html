@@ -37,6 +37,16 @@
 
         this.proximoId += 1;
         this.limparCampo();
+      },
+      // TODO 2 — alternarFavorito(id)
+      alternarFavorito(id) {
+        const oficina = this.oficinas.find(item => item.id === id);
+
+        if (!oficina) {
+          return;
+        }
+
+        oficina.favorita = !oficina.favorita;
       }
     }
   }).mount('#app');
