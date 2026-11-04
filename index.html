@@ -1,139 +1,101 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Calculadora Vue — Aula 01</title>
-
-  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-  <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
-  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>formulario de Inscrição Vue</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css">
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 </head>
+
 <body class="min-h-screen bg-base-200 flex items-center justify-center p-6">
+    
+  <div id="app" class="card bg-base-100 shadow-xl w-full max-w-md">
+        <div class="card-body">
+            <!-- título da página -->
+            <h1 class="card-title justify-center text-2xl mb-2">
+                Inscrição em oficina
+            </h1>
+            <!-- Formulário de inscrição -->
+            <form class="space-y-4" v-if="!confirmado" @submit.prevent="confirmarInscricao">
 
-  
-  <div id="app" class="card bg-base-100 shadow-2xl w-full max-w-md">
-    <div class="card-body">
+                <!-- v-model: ligar input ao estado -->
+                <div>
+                    <label for="nome" class="block font-semibold mb-1">Nome</label>
+                    <input id="nome" type="text" class="input w-full" v-model="nome" @blur="validarCampos" :class="{'input-error': erroNome}">
+                    <p id="erro-nome" v-if="erroNome" class="text-error text-sm mt-1">Informe seu nome</p>
+                </div>
+                
+                <div>
+                    <label for="email" class="block font-semibold mb-1">E-mail</label>
+                    <input type="text" id="email" class="input w-full" v-model="email" @blur="validarCampos" :class="{'input-error': erroEmail}">
+                    <p id="erro-email" v-if="erroEmail" class="text-error text-sm mt-1">Informe um e-mail válido</p>
+                </div>
 
-      <h1 class="card-title justify-center text-2xl mb-2">Calculadora Vue</h1>
+                <button type="submit" class="btn btn-primary w-full">Confirmar inscrição</button>
+            </form>
 
-      <!-- VISOR — {{ display }} mostra o estado reativo -->
-      <div class="bg-base-300 rounded-box p-4 mb-4 min-h-16 flex items-center justify-end">
-        <div class="text-3xl font-mono font-bold break-all">{{ display }}</div>
+            <!-- área de resultado -->    
+              <div v-else class="space-y-4">
+                  <div class="alert alert-success">Inscrição confirmada!</div>
+                  <div class="bg-base-200 rounded-box p-4 space-y-2">
+                      <p><strong>Nome:</strong> {{ nome }}</p>
+                      <p class="break-words"><strong>E-mail:</strong> {{ email }}</p>
+                  </div>
+                  <button class="btn btn-outline w-full" @click="editarInscricao">Editar</button>
+              </div>
       </div>
-
-      <!-- BOTÕES — cada um dispara um método via @click -->
-      <div class="grid grid-cols-4 gap-2">
-
-        <button class="btn btn-ghost text-xl" @click="appendDigit('7')">7</button>
-        <button class="btn btn-ghost text-xl" @click="appendDigit('8')">8</button>
-        <button class="btn btn-ghost text-xl" @click="appendDigit('9')">9</button>
-        <button class="btn btn-primary text-xl" @click="setOperator('/')">÷</button>
-
-        <button class="btn btn-ghost text-xl" @click="appendDigit('4')">4</button>
-        <button class="btn btn-ghost text-xl" @click="appendDigit('5')">5</button>
-        <button class="btn btn-ghost text-xl" @click="appendDigit('6')">6</button>
-        <button class="btn btn-primary text-xl" @click="setOperator('*')">×</button>
-
-        <button class="btn btn-ghost text-xl" @click="appendDigit('1')">1</button>
-        <button class="btn btn-ghost text-xl" @click="appendDigit('2')">2</button>
-        <button class="btn btn-ghost text-xl" @click="appendDigit('3')">3</button>
-        <button class="btn btn-primary text-xl" @click="setOperator('-')">−</button>
-
-        <button class="btn btn-error text-xl" @click="clear">C</button>
-        <button class="btn btn-ghost text-xl" @click="appendDigit('0')">0</button>
-        <button class="btn btn-accent text-xl" @click="calculate">=</button>
-        <button class="btn btn-primary text-xl" @click="setOperator('+')">+</button>
-
-      </div>
-    </div>
   </div>
 
-  <script>
-    Vue.createApp({
+    <script>
+        Vue.createApp({
+            data() {
+                return {
+                    nome: '',
+                    email: '',
+                    erroNome: false,
+                    erroEmail: false,
+                    confirmado: false // formulario
+                }
+            },
+          // funçoes de metodos para nosso app
+            methods: {
+                // serve para remover mensagens de erro 
+                limparErros(){
+                    this.erroNome = false;
+                    this.erroEmail = false;
+                },
+                // verifica se os campos estão crretos e tipos validos
+                validarCampos(){
+                   // verifica se os erros estão limpos
+                    this.limparErros();
 
-      data() {
-        return {
-          display: '0',            // aparece no visor
-          firstOperand: null,      // primeiro número da operação
-          operator: null,          // '+', '-', '*' ou '/'
-          waitingForSecond: false  // true = o próximo dígito substitui o visor
-        }
-      },
+                    //valida nome
+                    if(this.nome.trim() === ''){
+                        this.erroNome = true;
+                    }
+                    //valida o email
+                    if(this.email.trim() === '' || !this.email.includes('@')){
+                    this.erroEmail = true;
+                    }
 
-      // ==========================================
-      // as ações da calculadora
-      // ==========================================
-      methods: {
-
-        // EXEMPLO JÁ PRONTO — use como referência
-        // Reseta a calculadora ao estado inicial.
-        clear() {
-          this.display = '0';
-          this.firstOperand = null;
-          this.operator = null;
-          this.waitingForSecond = false;
-        },
-
-        // ==========================================
-        // TODO 1 — appendDigit(digit)
-        // Digita um dígito no visor.
-        //
-        // Regras:
-        //  1. Se this.waitingForSecond for true:
-        //        this.display = digit
-        //        this.waitingForSecond = false
-        //  2. Senão, se this.display === '0':
-        //        this.display = digit
-        //  3. Senão:
-        //        this.display = this.display + digit
-        // ==========================================
-        appendDigit(digit) {
-          // ... seu código aqui
-        },
-
-        // ==========================================
-        // TODO 2 — setOperator(op)
-        // Registra o operador pendente.
-        //
-        // Regras:
-        //  1. Se this.display === 'Erro': return (saia)
-        //  2. Se this.operator !== null E !this.waitingForSecond:
-        //        this.calculate()
-        //  3. this.firstOperand = parseFloat(this.display)
-        //  4. this.operator = op
-        //  5. this.waitingForSecond = true
-        // ==========================================
-        setOperator(op) {
-          // ... seu código aqui
-        },
-
-        // ==========================================
-        // TODO 3 — calculate()
-        // Executa a operação pendente.
-        //
-        // Regras:
-        //  1. Se this.operator === null OU this.firstOperand === null:
-        //        return
-        //  2. const a = this.firstOperand
-        //  3. const b = parseFloat(this.display)
-        //  4. Aplique o operador (use if/else ou switch):
-        //        '+' → a + b
-        //        '-' → a - b
-        //        '*' → a * b
-        //        '/' → b === 0 ? 'Erro' : a / b
-        //  5. this.display = String(resultado)
-        //  6. this.firstOperand = null
-        //  7. this.operator = null
-        //  8. this.waitingForSecond = true
-        // ==========================================
-        calculate() {
-          // ... seu código aqui
-        }
-
-      }
-
-    }).mount('#app')
-  </script>
+                    //retorna erros
+                    return !this.erroNome && !this.erroEmail;
+                },
+                // só confirma se os campos forem válidos
+                confirmarInscricao(){
+                    if (this.validarCampos()) {
+                        this.confirmado = true;
+                    }
+                },
+                // volta para o formulário mantendo o que foi digitado
+                editarInscricao(){
+                    this.limparErros();
+                    this.confirmado = false;
+                }
+            }
+        }).mount("#app");
+    </script>
 </body>
 </html>
